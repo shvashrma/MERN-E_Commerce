@@ -2,6 +2,7 @@ import productModel from "../Model/productModel.js";
 import asyncHandler from "express-async-handler";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import crypto from "crypto";
+import sharp from "sharp";
 
 const s3 = new S3Client({
   region: process.env.AWS_BUCKET_REGION,
@@ -11,26 +12,26 @@ const s3 = new S3Client({
   },
 });
 
-const randomImageName = async (bytes = 32) => await crypto.randomBytes(bytes).toString("hex");
+const randomImageName = async (bytes = 32) =>
+  await crypto.randomBytes(bytes).toString("hex");
 
 const addingNewProduct = asyncHandler(async (req, res) => {
-  const {
-    productImage,
-    productName,
-    description,
-    price,
-    category,
-    ratings,
-    Quantity,
-  } = req.body;
+  const { productName, description, price, category, ratings, Quantity } =
+    req.body;
 
   const productMulterImage = req.file;
 
   try {
+    const productImageName = randomImageName();
+
+    const buffer = await sharp(req.file.buffer)
+      .resize({ height: 1920, width: 1080, fit: "contain" })
+      .toBuffer();
+      
     const command = new PutObjectCommand({
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: randomImageName(),
-      Body: req.file.buffer,
+      Key: productImageName,
+      Body: buffer,
       ContentType: req.file.mimetype,
     });
 
@@ -38,7 +39,7 @@ const addingNewProduct = asyncHandler(async (req, res) => {
 
     const newProduct = await productModel.create({
       sellerID: req.user,
-      productImage,
+      productImage: productImageName,
       productName,
       description,
       price,
