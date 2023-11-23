@@ -4,7 +4,8 @@ import bodyparser from "body-parser";
 import cors from "cors";
 import databaseConnection from "./databaseConnection.js";
 import mongoose from "mongoose";
-import userRoutes from './Routes/userRoutes.js'
+import userRoutes from "./Routes/userRoutes.js";
+import productRoutes from "./Routes/productRoutes.js";
 
 const app = express();
 
@@ -37,4 +38,5 @@ db.on("open", () => {
 });
 
 // API Routes
-app.use('/api/v1', userRoutes)
+app.use("/api/v1", userRoutes);
+app.use("/api/v1", productRoutes);
