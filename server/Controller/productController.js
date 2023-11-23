@@ -1,6 +1,7 @@
 import productModel from "../Model/productModel.js";
 import asyncHandler from "express-async-handler";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import crypto from "crypto";
 
 const s3 = new S3Client({
   region: process.env.AWS_BUCKET_REGION,
@@ -9,6 +10,8 @@ const s3 = new S3Client({
     accessKeyId: process.env.AWS_BUCKET_ACCESSKEY,
   },
 });
+
+const randomImageName = async (bytes = 32) => await crypto.randomBytes(bytes).toString("hex");
 
 const addingNewProduct = asyncHandler(async (req, res) => {
   const {
@@ -25,13 +28,13 @@ const addingNewProduct = asyncHandler(async (req, res) => {
 
   try {
     const command = new PutObjectCommand({
-        Bucket : process.env.AWS_BUCKET_NAME,
-        Key : req.file.originalname,
-        Body : req.file.buffer,
-        ContentType : req.file.mimetype
-    })
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: randomImageName(),
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype,
+    });
 
-    s3.send(command)
+    s3.send(command);
 
     const newProduct = await productModel.create({
       sellerID: req.user,
@@ -54,7 +57,6 @@ const addingNewProduct = asyncHandler(async (req, res) => {
   }
 });
 
-
 const gettingAllProducts = asyncHandler(async (req, res) => {
   try {
     const Products = await productModel.find();
@@ -68,7 +70,6 @@ const gettingAllProducts = asyncHandler(async (req, res) => {
     res.status(500).json({ errorMessage: error });
   }
 });
-
 
 const getProduct = asyncHandler(async (req, res) => {
   const { productId } = req.params;
