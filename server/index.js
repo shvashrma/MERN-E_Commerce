@@ -4,6 +4,7 @@ import bodyparser from "body-parser";
 import cors from "cors";
 import databaseConnection from "./databaseConnection.js";
 import mongoose from "mongoose";
+import userRoutes from './Routes/userRoutes.js'
 
 const app = express();
 
@@ -34,3 +35,6 @@ db.on("error", (event) => {
 db.on("open", () => {
   console.log("Database successfully connected");
 });
+
+// API Routes
+app.use('/api/v1', userRoutes)
