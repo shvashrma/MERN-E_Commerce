@@ -15,6 +15,7 @@ import Address from "./Screens/Address";
 import Billing from "./Screens/Billing";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
+import Search from "./Screens/Search";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/return" Component={Return}></Route>
           <Route path="/store" Component={Store}></Route>
           <Route path="/product:id" Component={Product}></Route>
+          <Route path="/search" Component={Search}></Route>
           <Route path="/payment" Component={Payment}></Route>
           <Route path="/cart" Component={Cart}></Route>
           <Route path="/feedback" Component={Feedback}></Route>
