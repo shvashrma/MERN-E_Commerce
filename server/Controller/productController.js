@@ -1,5 +1,14 @@
 import productModel from "../Model/productModel.js";
 import asyncHandler from "express-async-handler";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+
+const s3 = new S3Client({
+  region: process.env.AWS_BUCKET_REGION,
+  credentials: {
+    secretAccessKey: process.env.AWS_BUCKET_SECRET_ACCESSKEY,
+    accessKeyId: process.env.AWS_BUCKET_ACCESSKEY,
+  },
+});
 
 const addingNewProduct = asyncHandler(async (req, res) => {
   const {
@@ -12,7 +21,18 @@ const addingNewProduct = asyncHandler(async (req, res) => {
     Quantity,
   } = req.body;
 
+  const productMulterImage = req.file;
+
   try {
+    const command = new PutObjectCommand({
+        Bucket : process.env.AWS_BUCKET_NAME,
+        Key : req.file.originalname,
+        Body : req.file.buffer,
+        ContentType : req.file.mimetype
+    })
+
+    s3.send(command)
+
     const newProduct = await productModel.create({
       sellerID: req.user,
       productImage,
@@ -33,6 +53,7 @@ const addingNewProduct = asyncHandler(async (req, res) => {
     res.status(500).json({ errorMessage: error });
   }
 });
+
 
 const gettingAllProducts = asyncHandler(async (req, res) => {
   try {
@@ -64,6 +85,5 @@ const getProduct = asyncHandler(async (req, res) => {
     res.status(500).json({ errorMessage: error });
   }
 });
-
 
 export { addingNewProduct, gettingAllProducts, getProduct };
