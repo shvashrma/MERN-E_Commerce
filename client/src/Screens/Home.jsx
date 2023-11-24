@@ -1,6 +1,8 @@
-import react from "react";
+import react, { useEffect } from "react";
 import { HiOutlineClock } from "react-icons/hi";
 import Product from "../Components/Product";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails } from "../Redux/Slices/userSlice";
 // import BannerImg1 from "../../../Assets/Banners/Banner-1.webp";
 // import BannerImg2 from "../../../Assets/Banners/Banner-2.webp";
 // import BannerImg3 from "../../../Assets/Banners/Banner-3.webp";
@@ -10,6 +12,21 @@ import Product from "../Components/Product";
 // import Mainbanner3 from "../../../Assets/Banners/Main-3.jpg";
 
 export default function Home() {
+  const dispatch = useDispatch();
+  const authToken = useSelector((state) => state.user?.authToken);
+
+  const credentials = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
+
+  useEffect(() => {
+    if (authToken) {
+      dispatch(getUserDetails(credentials));
+    }
+  }, [authToken]);
+
   return (
     <div className="flex flex-col items-center justify-center w-full">
       {/* Upper Division */}
@@ -32,7 +49,6 @@ export default function Home() {
 
       {/* Middle Division */}
       <div className="flex flex-row items-start justify-between w-full ">
-
         {/* Sidebar -------------------------------------------------------------------- */}
         <div className="flex flex-col items-start bg-black/5 w-[20%] px-6 my-6 mr-6">
           <div className="flex flex-col items-start border-b-2 py-6 space-y-2">

@@ -10,9 +10,13 @@ import {
   HiOutlineUser,
   HiOutlineHeart,
 } from "react-icons/hi";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
+
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
+  const loggedInUser = useSelector((state) => state.user?.user);
+
   return (
     <div className="flex flex-col ">
       {/* Upper navbar  */}
@@ -78,15 +82,48 @@ export default function Navbar() {
           </div>
 
           {/* User Account  */}
-          <Link className="flex flex-row items-center space-x-1 cursor-pointer" to={'/login'}>
-            <HiOutlineUser size={"16px"} />
-            <div className="flex flex-col -space-y-1">
-              <p className="text-[8px] text-gray-700 font-semibold">Hello</p>
-              <h2 className="text-[12px] font-bold text-gray-800">
-                My Account
-              </h2>
+          {loggedInUser ? (
+            <div className="flex flex-row items-center space-x-1 cursor-pointer">
+              <HiOutlineUser size={"16px"} />
+              <div className="flex flex-col -space-y-1">
+                <p className="text-[8px] text-gray-700 font-semibold">Hello</p>
+                <h2 className="text-[12px] font-bold text-gray-800">
+                  {loggedInUser.userName}
+                </h2>
+              </div>
             </div>
-          </Link>
+          ) : (
+            <Link
+              className="flex flex-row items-center space-x-1 cursor-pointer"
+              to={"/login"}
+            >
+              <HiOutlineUser size={"16px"} />
+              <div className="flex flex-col -space-y-1">
+                <p className="text-[8px] text-gray-700 font-semibold">Hello</p>
+                <h2 className="text-[12px] font-bold text-gray-800">
+                  My Account
+                </h2>
+              </div>
+            </Link>
+          )}
+          {loggedInUser.isSeller ? (
+            <div className="flex flex-row items-center space-x-1 cursor-pointer border2 border-teal-700 px-4 py-2">
+              <HiOutlineUser size={"16px"} />
+              <div className="flex flex-col -space-y-1">
+                <h2 className="text-[12px] font-bold text-gray-800">
+                  Seller Account
+                </h2>
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-row items-center space-x-1 cursor-pointer border-2 border-teal-700 py-2 px-4 rounded-md ">
+              <div className="flex flex-col -space-y-1">
+                <h2 className="text-[12px] font-bold text-teal-700">
+                  Become a Seller
+                </h2>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

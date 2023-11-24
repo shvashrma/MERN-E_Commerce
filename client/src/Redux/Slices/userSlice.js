@@ -32,6 +32,19 @@ const registerUser = createAsyncThunk(
   }
 );
 
+const getUserDetails = createAsyncThunk(
+  "user/getUserDetails",
+  async (credentials) => {
+    try {
+      const { data } = await axios.get("api/v1/user", credentials);
+      console.log(credentials)
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -81,10 +94,27 @@ const userSlice = createSlice({
           (state.status = "failed"),
           (state.error = action.payload);
       });
+
+    builder
+      .addCase(getUserDetails.pending, (state) => {
+        (state.loading = true), (state.status = "loading");
+      })
+      .addCase(getUserDetails.fulfilled, (state, action) => {
+        (state.loading = false),
+          (state.user = action.payload),
+          (state.status = "successfull"),
+          (state.error = null);
+      })
+      .addCase(getUserDetails.rejected, (state, action) => {
+        (state.loading = false),
+          (state.user = null),
+          (state.status = "failed"),
+          (state.error = action.payload);
+      });
   },
 });
 
-export { loginUser, registerUser };
+export { loginUser, registerUser, getUserDetails };
 
 export const { setUsertoLocalstorage, clearUserfromLocalStorage } =
   userSlice.actions;
