@@ -2,6 +2,7 @@
 import react, { useState } from "react";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import axios from "../axios";
+import {Link} from 'react-router-dom'
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -43,6 +44,7 @@ export default function Login() {
             required
             className="w-3/4 outline-none px-4 h-10 rounded-sm bg-white font-semibold"
             onChange={(e) => setEmail(e.target.value)}
+            value={email}
           />
           <input
             type="text"
@@ -51,6 +53,7 @@ export default function Login() {
             required
             className="w-3/4 outline-none px-4 h-10 rounded-sm bg-white font-semibold"
             onChange={(e) => setuserName(e.target.value)}
+            value={userName}
           />
           <input
             type="password"
@@ -59,6 +62,7 @@ export default function Login() {
             required
             className="w-3/4 outline-none px-4 h-10 rounded-sm bg-white font-semibold"
             onChange={(e) => setPassword(e.target.value)}
+            value={password}
           />
           <input
             type="password"
@@ -67,6 +71,7 @@ export default function Login() {
             required
             className="w-3/4 outline-none px-4 h-10 rounded-sm bg-white font-semibold"
             onChange={(e) => setconfirmPassword(e.target.value)}
+            value={confirmPassword}
           />
           <button
             className="border-2 border-white rounded-md w-3/4 h-10 text-lg font-bold text-white"
@@ -95,7 +100,7 @@ export default function Login() {
           <p className="text-white text-xs ">
             Already have an account?{" "}
             <span className="font-bold text-md">
-              <a href="">click here</a>
+              <Link to={'/login'}>click here</Link>
             </span>{" "}
             to signin your account
           </p>

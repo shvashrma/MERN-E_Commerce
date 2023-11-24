@@ -2,11 +2,11 @@
 import react, { useState } from "react";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import axios from "../axios";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-  
 
   const userLoginFunction = async () => {
     const { data } = await axios.post("api/v1/user/login", {
@@ -36,6 +36,7 @@ export default function Login() {
             required
             className="w-3/4 outline-none px-4 h-10 rounded-sm bg-white font-semibold"
             onChange={(e) => setemail(e.target.value)}
+            value={email}
           />
           <input
             type="password"
@@ -44,6 +45,7 @@ export default function Login() {
             required
             className="w-3/4 outline-none px-4 h-10 rounded-sm bg-white font-semibold"
             onChange={(e) => setpassword(e.target.value)}
+            value={password}
           />
           <button
             className="border-2 border-white rounded-md w-3/4 h-10 text-lg font-bold text-white"
@@ -71,7 +73,7 @@ export default function Login() {
           <p className="text-white text-xs ">
             Don't have an account?{" "}
             <span className="font-bold text-md">
-              <a href="">click here</a>
+              <Link to={"/register"}>click here</Link>
             </span>{" "}
             to register an account
           </p>
