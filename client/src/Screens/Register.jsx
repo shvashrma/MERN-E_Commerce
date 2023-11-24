@@ -54,7 +54,7 @@ export default function Login() {
         <div className="w-full flex flex-col items-center mt-2 mb-6">
           <button className="border-2 flex flex-row items-center justify-center py-4 border-white rounded-md w-3/4 h-10 text-sm font-bold text-white text-center gap-2">
             <span>
-              <AiFillGoogleCircle size={'30px'} />
+              <AiFillGoogleCircle size={"30px"} />
             </span>
 
             <span>Continue with Google</span>
