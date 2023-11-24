@@ -6,7 +6,7 @@ const initialState = {
   loading: false,
   error: null,
   status: "idle",
-  authToken: null,
+  authToken: JSON.parse(localStorage.getItem("user")) || null,
 };
 
 const loginUser = createAsyncThunk("user/loginUser", async (credentials) => {
@@ -33,6 +33,17 @@ const registerUser = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState,
+  reducers: {
+    setUsertoLocalstorage: (state, action) => {
+      state.authToken = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload));
+    },
+
+    clearUserfromLocalStorage: (state) => {
+      (state.authToken = null), localStorage.removeItem("user");
+    },
+  },
+
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -70,5 +81,8 @@ const userSlice = createSlice({
 });
 
 export { loginUser, registerUser };
+
+export const { setUsertoLocalstorage, clearUserfromLocalStorage } =
+  userSlice.actions;
 
 export default userSlice.reducer;

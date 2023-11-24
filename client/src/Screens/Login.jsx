@@ -1,9 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
-import react, { useState } from "react";
+import react, { useEffect, useState } from "react";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../Redux/Slices/userSlice";
+import { setUsertoLocalstorage } from "../Redux/Slices/userSlice";
 
 export default function Login() {
   const [email, setemail] = useState("");
@@ -14,14 +15,24 @@ export default function Login() {
   const loading = useSelector((state) => state.user?.loading);
   const navigate = useNavigate();
 
-  console.log(loading);
+  useEffect(() => {
+    if (authToken) {
+      navigate("/");
+    }
+  }, []);
 
   const userLoginFunction = async () => {
     const credentials = {
       email,
       password,
     };
-    await dispatch(loginUser(credentials));
+
+    dispatch(loginUser(credentials))
+      .then((response) =>
+        dispatch(setUsertoLocalstorage(response.payload.AuthToken))
+      )
+      .catch((error) => console.log(error));
+
     setemail("");
     setpassword("");
   };
