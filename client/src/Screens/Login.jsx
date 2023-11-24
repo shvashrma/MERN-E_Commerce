@@ -2,7 +2,7 @@
 import react, { useState } from "react";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../Redux/Slices/userSlice";
 
 export default function Login() {
@@ -10,8 +10,9 @@ export default function Login() {
   const [password, setpassword] = useState("");
 
   const dispatch = useDispatch();
-  const authToken = useSelector((state) => state.user?.authToken)
-    const loading = useSelector((state) => state.user?.loading)
+  const authToken = useSelector((state) => state.user?.authToken);
+  const loading = useSelector((state) => state.user?.loading);
+  const navigate = useNavigate();
 
   console.log(loading);
 
@@ -24,6 +25,10 @@ export default function Login() {
     setemail("");
     setpassword("");
   };
+
+  if (authToken) {
+    navigate("/");
+  }
 
   return (
     <>
