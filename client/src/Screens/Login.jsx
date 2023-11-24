@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import react from "react";
+import { AiFillGoogleCircle } from "react-icons/ai";
 
 export default function Login() {
   return (
@@ -35,8 +36,12 @@ export default function Login() {
         </form>
 
         <div className="w-full flex flex-col items-center mt-2 mb-6">
-          <button className="border-2 border-white rounded-md w-3/4 h-10 text-sm font-bold text-white text-center">
-            Login with Google
+          <button className="border-2 flex flex-row items-center justify-center py-4 border-white rounded-md w-3/4 h-10 text-sm font-bold text-white text-center gap-2">
+            <span>
+              <AiFillGoogleCircle size={"30px"} />
+            </span>
+
+            <span>Continue with Google</span>
           </button>
         </div>
 
