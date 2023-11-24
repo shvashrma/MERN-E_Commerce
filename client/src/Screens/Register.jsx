@@ -1,8 +1,29 @@
 /* eslint-disable react/no-unescaped-entities */
-import react from "react";
+import react, { useState } from "react";
 import { AiFillGoogleCircle } from "react-icons/ai";
+import axios from "../axios";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setconfirmPassword] = useState("");
+  const [userName, setuserName] = useState("");
+
+  const userRegisterFunction = async () => {
+    const { data } = await axios.post("api/v1/user/register", {
+      email,
+      password,
+      userName,
+    });
+
+    console.log(data);
+
+    setEmail("");
+    setPassword("");
+    setconfirmPassword("");
+    setuserName("");
+  };
+
   return (
     <div className="flex justify-center items-center h-[100vh] bg-black/5">
       <div className="w-1/4 bg-teal-700 h-full flex flex-col items-center justify-center gap-4 ">
@@ -21,6 +42,7 @@ export default function Login() {
             placeholder="email address"
             required
             className="w-3/4 outline-none px-4 h-10 rounded-sm bg-white font-semibold"
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="text"
@@ -28,6 +50,7 @@ export default function Login() {
             placeholder="userName"
             required
             className="w-3/4 outline-none px-4 h-10 rounded-sm bg-white font-semibold"
+            onChange={(e) => setuserName(e.target.value)}
           />
           <input
             type="password"
@@ -35,6 +58,7 @@ export default function Login() {
             placeholder="password"
             required
             className="w-3/4 outline-none px-4 h-10 rounded-sm bg-white font-semibold"
+            onChange={(e) => setPassword(e.target.value)}
           />
           <input
             type="password"
@@ -42,10 +66,16 @@ export default function Login() {
             placeholder="confirm password"
             required
             className="w-3/4 outline-none px-4 h-10 rounded-sm bg-white font-semibold"
+            onChange={(e) => setconfirmPassword(e.target.value)}
           />
           <button
             className="border-2 border-white rounded-md w-3/4 h-10 text-lg font-bold text-white"
             type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+              userRegisterFunction();
+            }}
+            disabled={confirmPassword !== password}
           >
             Signup
           </button>

@@ -1,8 +1,24 @@
 /* eslint-disable react/no-unescaped-entities */
-import react from "react";
+import react, { useState } from "react";
 import { AiFillGoogleCircle } from "react-icons/ai";
+import axios from "../axios";
 
 export default function Login() {
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  
+
+  const userLoginFunction = async () => {
+    const { data } = await axios.post("api/v1/user/login", {
+      email,
+      password,
+    });
+
+    console.log(data);
+    setemail("");
+    setpassword("");
+  };
+
   return (
     <div className="flex justify-center items-center h-[100vh] bg-black/5">
       <div className="w-1/4 bg-teal-700 h-full flex flex-col items-center justify-center gap-4 ">
@@ -19,6 +35,7 @@ export default function Login() {
             placeholder="email address"
             required
             className="w-3/4 outline-none px-4 h-10 rounded-sm bg-white font-semibold"
+            onChange={(e) => setemail(e.target.value)}
           />
           <input
             type="password"
@@ -26,10 +43,15 @@ export default function Login() {
             placeholder="password"
             required
             className="w-3/4 outline-none px-4 h-10 rounded-sm bg-white font-semibold"
+            onChange={(e) => setpassword(e.target.value)}
           />
           <button
             className="border-2 border-white rounded-md w-3/4 h-10 text-lg font-bold text-white"
             type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+              userLoginFunction();
+            }}
           >
             Login
           </button>
