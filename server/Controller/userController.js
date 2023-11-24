@@ -35,7 +35,7 @@ const registerNewUser = asyncHandler(async (req, res) => {
 });
 
 // Controller for loggin in existing user
-const loginExistingUSer = asyncHandler(async (req, res) => {
+const loginExistingUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -62,4 +62,18 @@ const loginExistingUSer = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerNewUser, loginExistingUSer };
+const getUser = asyncHandler(async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user).select("-password");
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).send("user not found");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error });
+  }
+});
+
+export { registerNewUser, loginExistingUser, getUser };
