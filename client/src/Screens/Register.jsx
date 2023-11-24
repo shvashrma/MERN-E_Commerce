@@ -12,7 +12,6 @@ export default function Login() {
   const [userName, setuserName] = useState("");
 
   const dispatch = useDispatch();
-  const registeredUser = useSelector((state) => state.user?.user);
   const loading = useSelector((state) => state.user?.loading);
 
   console.log(loading);

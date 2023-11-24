@@ -9,6 +9,7 @@ const initialState = {
   authToken: JSON.parse(localStorage.getItem("user")) || null,
 };
 
+// asynchronous action to login user
 const loginUser = createAsyncThunk("user/loginUser", async (credentials) => {
   try {
     const { data } = await axios.post("api/v1/user/login", credentials);
@@ -18,6 +19,7 @@ const loginUser = createAsyncThunk("user/loginUser", async (credentials) => {
   }
 });
 
+// asynchronous action to register new user
 const registerUser = createAsyncThunk(
   "user/registerUser",
   async (credentials) => {
@@ -34,11 +36,13 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    // synchronous action to save authToken in localstorage
     setUsertoLocalstorage: (state, action) => {
       state.authToken = action.payload;
       localStorage.setItem("user", JSON.stringify(action.payload));
     },
 
+    // synchronous action to delete authToken from localstorage
     clearUserfromLocalStorage: (state) => {
       (state.authToken = null), localStorage.removeItem("user");
     },

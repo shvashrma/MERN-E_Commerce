@@ -15,11 +15,12 @@ export default function Login() {
   const loading = useSelector((state) => state.user?.loading);
   const navigate = useNavigate();
 
+  // navigating to home page if authToken is present
   useEffect(() => {
     if (authToken) {
       navigate("/");
     }
-  }, []);
+  });
 
   const userLoginFunction = async () => {
     const credentials = {
@@ -27,16 +28,17 @@ export default function Login() {
       password,
     };
 
+    // dispatching login user action and setUsertoLocalstorage action after successfuly looged in
     dispatch(loginUser(credentials))
       .then((response) =>
         dispatch(setUsertoLocalstorage(response.payload.AuthToken))
       )
       .catch((error) => console.log(error));
-
     setemail("");
     setpassword("");
   };
 
+  // redirecting to home page if user successfully logged in
   if (authToken) {
     navigate("/");
   }
