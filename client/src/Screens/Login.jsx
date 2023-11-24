@@ -1,20 +1,23 @@
 /* eslint-disable react/no-unescaped-entities */
 import react, { useState } from "react";
 import { AiFillGoogleCircle } from "react-icons/ai";
-import axios from "../axios";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { loginUser } from "../Redux/Slices/userSlice";
 
 export default function Login() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
 
+  const dispatch = useDispatch();
+  const authToken = useSelector((state) => state.user?.authToken);
+
   const userLoginFunction = async () => {
-    const { data } = await axios.post("api/v1/user/login", {
+    const credentials = {
       email,
       password,
-    });
-
-    console.log(data);
+    };
+    await dispatch(loginUser(credentials));
     setemail("");
     setpassword("");
   };

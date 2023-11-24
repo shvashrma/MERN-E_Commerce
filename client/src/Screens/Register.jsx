@@ -1,8 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 import react, { useState } from "react";
 import { AiFillGoogleCircle } from "react-icons/ai";
-import axios from "../axios";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../Redux/Slices/userSlice";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,15 +11,17 @@ export default function Login() {
   const [confirmPassword, setconfirmPassword] = useState("");
   const [userName, setuserName] = useState("");
 
+  const dispatch = useDispatch();
+  const registeredUser = useSelector((state) => state.user?.user);
+
   const userRegisterFunction = async () => {
-    const { data } = await axios.post("api/v1/user/register", {
+    const credentials = {
       email,
       password,
       userName,
-    });
+    };
 
-    console.log(data);
-
+    dispatch(registerUser(credentials));
     setEmail("");
     setPassword("");
     setconfirmPassword("");
@@ -100,7 +103,7 @@ export default function Login() {
           <p className="text-white text-xs ">
             Already have an account?{" "}
             <span className="font-bold text-md">
-              <Link to={'/login'}>click here</Link>
+              <Link to={"/login"}>click here</Link>
             </span>{" "}
             to signin your account
           </p>

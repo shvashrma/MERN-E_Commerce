@@ -41,7 +41,8 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         (state.loading = false),
           (state.authToken = action.payload),
-          (state.status = "successfull");
+          (state.status = "successfull"),
+          (state.user = null);
       })
       .addCase(loginUser.rejected, (state, action) => {
         (state.loading = false),
@@ -49,12 +50,12 @@ const userSlice = createSlice({
           (state.error = action.payload),
           (state.status = "failed");
       });
-      
+
     builder
       .addCase(registerUser.pending, (state) => {
         (state.loading = true), (state.status = "loading");
       })
-      .addCase(registerUser, (state, action) => {
+      .addCase(registerUser.fulfilled, (state, action) => {
         (state.loading = false),
           (state.user = action.payload),
           (state.status = "successful");
