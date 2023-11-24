@@ -20,12 +20,16 @@ import Search from "./Screens/Search";
 function App() {
   return (
     <div className="w-full h-full items-center flex flex-col justify-center relative">
-      <div className="w-[80vw] h-full">
-        <Navbar />
+      <div className="w-[100vw]">
         <Routes>
-          <Route path="/" Component={Home}></Route>
           <Route path="/login" Component={Login}></Route>
           <Route path="/register" Component={Register}></Route>
+        </Routes>
+      </div>
+      {/* <Navbar /> */}
+      <div className="w-[80vw] h-full">
+        <Routes>
+          <Route path="/" Component={Home}></Route>
           <Route path="/orders" Component={Order}></Route>
           <Route path="/return" Component={Return}></Route>
           <Route path="/store" Component={Store}></Route>
@@ -38,8 +42,8 @@ function App() {
           <Route path="/address" Component={Address}></Route>
           <Route path="/billing" Component={Billing}></Route>
         </Routes>
+        {/* <Footer /> */}
       </div>
-      <Footer />
     </div>
   );
 }
