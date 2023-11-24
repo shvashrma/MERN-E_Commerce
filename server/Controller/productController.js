@@ -9,7 +9,7 @@ const s3 = new S3Client({
   credentials: {
     secretAccessKey: process.env.AWS_BUCKET_SECRET_ACCESSKEY,
     accessKeyId: process.env.AWS_BUCKET_ACCESSKEY,
-  },
+  }
 });
 
 const randomImageName = async (bytes = 32) =>
@@ -19,22 +19,19 @@ const addingNewProduct = asyncHandler(async (req, res) => {
   const { productName, description, price, category, ratings, Quantity } =
     req.body;
 
-  const productMulterImage = req.file;
-
   try {
     const productImageName = randomImageName();
 
     const buffer = await sharp(req.file.buffer)
       .resize({ height: 1920, width: 1080, fit: "contain" })
       .toBuffer();
-      
+
     const command = new PutObjectCommand({
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: productImageName,
       Body: buffer,
       ContentType: req.file.mimetype,
     });
-
     s3.send(command);
 
     const newProduct = await productModel.create({
@@ -57,6 +54,8 @@ const addingNewProduct = asyncHandler(async (req, res) => {
     res.status(500).json({ errorMessage: error });
   }
 });
+
+
 
 const gettingAllProducts = asyncHandler(async (req, res) => {
   try {
