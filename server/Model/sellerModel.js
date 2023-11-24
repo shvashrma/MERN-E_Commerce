@@ -4,32 +4,32 @@ const sellerModel = mongoose.Schema(
   {
     ownerName: {
       type: String,
-      required,
+      required: true,
     },
     email: {
       type: String,
-      required,
+      required: true,
     },
     phoneNumber: {
       type: String,
-      required,
+      required: true,
     },
     organizationName: {
       type: String,
-      required,
+      required: true,
     },
     products: [String],
     userId: {
       type: String,
-      required,
+      required: true,
     },
     categories: {
       type: [String],
-      required,
+      required: true,
     },
     ratings: {
       type: Number,
-      required,
+      required: true,
       default: 0,
     },
   },

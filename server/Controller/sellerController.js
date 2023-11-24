@@ -12,7 +12,7 @@ const registerNewSeller = asyncHandler(async (req, res) => {
       phoneNumber,
       organizationName,
       categories,
-      userId: req.user,
+      userId: req.user._id,
     });
 
     await UserModel.findByIdAndUpdate(req.user, { isSeller: true });
