@@ -15,35 +15,31 @@ import Address from "./Screens/Address";
 import Billing from "./Screens/Billing";
 import Search from "./Screens/Search";
 import Layout from "./Layout";
+import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
 
 function App() {
   return (
     <div className="w-full h-full items-center flex flex-col justify-center relative">
-      <Routes>
-        <Route path="/login" Component={Login}></Route>
-        <Route path="/register" Component={Register}></Route>
-        <Route
-          path="/"
-          element={
-            <Layout>
-              <Routes>
-                <Route path="/" Component={Home}></Route>
-                <Route path="/orders" Component={Order}></Route>
-                <Route path="/return" Component={Return}></Route>
-                <Route path="/store" Component={Store}></Route>
-                <Route path="/product:id" Component={Product}></Route>
-                <Route path="/search" Component={Search}></Route>
-                <Route path="/payment" Component={Payment}></Route>
-                <Route path="/cart" Component={Cart}></Route>
-                <Route path="/feedback" Component={Feedback}></Route>
-                <Route path="/checkout" Component={Checkout}></Route>
-                <Route path="/address" Component={Address}></Route>
-                <Route path="/billing" Component={Billing}></Route>
-              </Routes>
-            </Layout>
-          }
-        ></Route>
-      </Routes>
+      <Layout />
+      <div className="w-[80vw]">
+        <Navbar />
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/orders" element={<Order />} />
+          <Route path="/return" element={<Return />} />
+          <Route path="/store" element={<Store />} />
+          <Route path="/product:id" element={<Product />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/feedback" element={<Feedback />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/address" element={<Address />} />
+          <Route path="/billing" element={<Billing />} />
+        </Routes>
+        <Footer />
+      </div>
     </div>
   );
 }

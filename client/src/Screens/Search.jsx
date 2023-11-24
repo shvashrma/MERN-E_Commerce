@@ -9,7 +9,6 @@ import {
   HiOutlineStar,
   HiStar,
 } from "react-icons/hi";
-import Product from "../Components/Product";
 import SearchedProduct from "../Components/SearchedProduct";
 
 export default function Search() {
