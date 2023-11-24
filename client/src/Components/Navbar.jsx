@@ -10,6 +10,7 @@ import {
   HiOutlineUser,
   HiOutlineHeart,
 } from "react-icons/hi";
+import {Link} from 'react-router-dom'
 
 export default function Navbar() {
   return (
@@ -77,15 +78,15 @@ export default function Navbar() {
           </div>
 
           {/* User Account  */}
-          <div className="flex flex-row items-center space-x-1 cursor-pointer">
+          <Link className="flex flex-row items-center space-x-1 cursor-pointer" to={'/login'}>
             <HiOutlineUser size={"16px"} />
             <div className="flex flex-col -space-y-1">
               <p className="text-[8px] text-gray-700 font-semibold">Hello</p>
-              <h6 className="text-[12px] font-bold text-gray-800">
+              <h2 className="text-[12px] font-bold text-gray-800">
                 My Account
-              </h6>
+              </h2>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
 

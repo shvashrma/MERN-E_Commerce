@@ -26,7 +26,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center h-[100vh] bg-black/5">
+    <div className="flex justify-center items-center h-[100vh] w-[100vw] bg-black/5">
       <div className="w-1/4 bg-teal-700 h-full flex flex-col items-center justify-center gap-4 ">
         <div className="w-full flex flex-col items-center justify-center gap-3">
           <h2 className="text-white font-bold text-2xl ">
