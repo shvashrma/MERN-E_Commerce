@@ -6,6 +6,7 @@ import databaseConnection from "./databaseConnection.js";
 import mongoose from "mongoose";
 import userRoutes from "./Routes/userRoutes.js";
 import productRoutes from "./Routes/productRoutes.js";
+import sellerRoutes from "./Routes/sellerRoutes.js";
 
 const app = express();
 
@@ -40,3 +41,4 @@ db.on("open", () => {
 // API Routes
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", productRoutes);
+app.use("/api/v1", sellerRoutes);
