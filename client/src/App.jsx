@@ -17,6 +17,8 @@ import Search from "./Screens/Search";
 import Layout from "./Layout";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
+import SellerAcount from "./Screens/SellerAcount";
+import SellerRegister from "./Screens/SellerRegister";
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/address" element={<Address />} />
           <Route path="/billing" element={<Billing />} />
+          <Route path="/seller/:sellerId" element={<SellerAcount />} />
+          <Route path="/seller/register" element={<SellerRegister />} />
         </Routes>
         <Footer />
       </div>

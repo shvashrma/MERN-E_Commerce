@@ -106,23 +106,29 @@ export default function Navbar() {
               </div>
             </Link>
           )}
-          {loggedInUser.isSeller ? (
-            <div className="flex flex-row items-center space-x-1 cursor-pointer border2 border-teal-700 px-4 py-2">
+          {loggedInUser?.isSeller ? (
+            <Link
+              className="flex flex-row items-center space-x-1 cursor-pointer border2 border-teal-700 px-4 py-2"
+              to={`/seller/:43535443325`}
+            >
               <HiOutlineUser size={"16px"} />
               <div className="flex flex-col -space-y-1">
                 <h2 className="text-[12px] font-bold text-gray-800">
                   Seller Account
                 </h2>
               </div>
-            </div>
+            </Link>
           ) : (
-            <div className="flex flex-row items-center space-x-1 cursor-pointer border-2 border-teal-700 py-2 px-4 rounded-md ">
+            <Link
+              className="flex flex-row items-center space-x-1 cursor-pointer border-2 border-teal-700 py-2 px-4 rounded-md "
+              to={"/seller/register"}
+            >
               <div className="flex flex-col -space-y-1">
                 <h2 className="text-[12px] font-bold text-teal-700">
                   Become a Seller
                 </h2>
               </div>
-            </div>
+            </Link>
           )}
         </div>
       </div>
