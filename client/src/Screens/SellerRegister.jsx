@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { registerSellerAccount } from "../Redux/Slices/SellerAccount";
 
 export default function SellerRegister() {
   const [categories, setcategories] = useState([]);
@@ -6,6 +8,8 @@ export default function SellerRegister() {
   const [ownerName, setownerName] = useState("");
   const [phoneNumber, setphoneNumber] = useState("");
   const [email, setemail] = useState("");
+  const dispatch = useDispatch();
+  const authToken = useSelector((state) => state.user?.authToken);
 
   const handleCategories = (e) => {
     const { value, checked } = e.target;
@@ -22,10 +26,15 @@ export default function SellerRegister() {
     ownerName,
     phoneNumber,
     email,
+    headers: {
+        Authorization: `Bearer ${authToken}`,
+    },
   };
 
   const sellerRegisterFunctuon = () => {
-    console.log(credentials);
+    dispatch(registerSellerAccount(credentials));
+
+    console.log(credentials)
   };
 
   return (

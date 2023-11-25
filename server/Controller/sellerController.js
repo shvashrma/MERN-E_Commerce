@@ -16,6 +16,7 @@ const registerNewSeller = asyncHandler(async (req, res) => {
     });
 
     await UserModel.findByIdAndUpdate(req.user, { isSeller: true });
+    await UserModel.findByIdAndUpdate(req.user, { sellerId: newSeller._id });
 
     if (newSeller) {
       res

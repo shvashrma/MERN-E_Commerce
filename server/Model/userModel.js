@@ -25,13 +25,16 @@ const userModel = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    sellerId: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
 
 userModel.methods.comparePassword = async function (enteredPassword) {
-    return await bcrypt.compare(enteredPassword, this.password)
-}
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 userModel.pre("save", async function (next) {
   const salt = await bcrypt.genSalt(10);
