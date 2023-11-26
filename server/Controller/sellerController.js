@@ -32,15 +32,16 @@ const registerNewSeller = asyncHandler(async (req, res) => {
 });
 
 const getSellerDetails = asyncHandler(async (req, res) => {
-  const sellerId = req.params;
+  const { sellerId } = req.params;
   try {
     const seller = await sellerModel.findById(sellerId).select("-userId");
     if (seller) {
       return res.status(200).json(seller);
     } else {
-      return res.status(404).send("Invalid seller Id");
+      return res.status(404).json({ errorMessage: "Invalid seller Id" });
     }
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ errorMessage: "Internal server error" });
   }
 });

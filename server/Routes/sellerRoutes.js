@@ -8,6 +8,6 @@ import {
 const router = express.Router();
 
 router.route("/seller/register").post(protectAuth, registerNewSeller);
-router.route("/seller/:sellerID").get(protectAuth, getSellerDetails);
+router.route("/seller/:sellerId").get(protectAuth, getSellerDetails);
 
 export default router;
