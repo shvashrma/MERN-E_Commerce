@@ -40,7 +40,10 @@ export default function SellerRegister() {
   };
 
   const sellerRegisterFunctuon = () => {
-    dispatch(registerSellerAccount(credentials, headers));
+    dispatch(registerSellerAccount(credentials, headers)).then((response) => {
+      console.log(response);
+    });
+
     setemail("");
     setownerName("");
     setorganizaztionName("");
