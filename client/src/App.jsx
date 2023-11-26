@@ -1,8 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Home from "./Screens/Home";
-import Login from "./Screens/Login";
-import Register from "./Screens/Register";
 import Order from "./Screens/Order";
 import Return from "./Screens/Returns";
 import Cart from "./Screens/Cart";
@@ -19,8 +17,20 @@ import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import SellerAcount from "./Screens/SellerAcount";
 import SellerRegister from "./Screens/SellerRegister";
+import { getUserDetails } from "./Redux/Slices/userSlice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
+  const authToken = useSelector((state) => state.user?.authToken);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (authToken) {
+      dispatch(getUserDetails());
+    }
+  }, [authToken, dispatch]);
+
   return (
     <div className="w-full h-full items-center flex flex-col justify-center relative">
       <Layout />

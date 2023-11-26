@@ -4,7 +4,7 @@ import { registerSellerAccount } from "../Redux/Slices/SellerAccount";
 import { useNavigate } from "react-router-dom";
 export default function SellerRegister() {
   const [categories, setcategories] = useState([]);
-  const [organizaztionName, setorganizaztionName] = useState("");
+  const [organizationName, setorganizationName] = useState("");
   const [ownerName, setownerName] = useState("");
   const [phoneNumber, setphoneNumber] = useState("");
   const [email, setemail] = useState("");
@@ -29,24 +29,18 @@ export default function SellerRegister() {
 
   const credentials = {
     categories,
-    organizaztionName,
+    organizationName,
     ownerName,
     phoneNumber,
     email,
   };
 
-  const headers = {
-    Authorization: `Bearer ${authToken}`,
-  };
-
   const sellerRegisterFunctuon = () => {
-    dispatch(registerSellerAccount(credentials, headers)).then((response) => {
-      console.log(response);
-    });
+    dispatch(registerSellerAccount(credentials));
 
     setemail("");
     setownerName("");
-    setorganizaztionName("");
+    setorganizationName("");
     setcategories([]);
     setphoneNumber("");
   };
@@ -82,8 +76,8 @@ export default function SellerRegister() {
               required
               placeholder="Organization Name"
               className="border-2 border-teal-800 py-1 px-4 font-semibold text-gray-500 w-full flex-[.8] outline-none rounded-md"
-              onChange={(e) => setorganizaztionName(e.target.value)}
-              value={organizaztionName}
+              onChange={(e) => setorganizationName(e.target.value)}
+              value={organizationName}
             />
           </div>
           <div className="flex flex-row gap-4 w-full ">

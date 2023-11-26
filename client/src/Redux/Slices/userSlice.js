@@ -34,9 +34,14 @@ const registerUser = createAsyncThunk(
 
 const getUserDetails = createAsyncThunk(
   "user/getUserDetails",
-  async (credentials) => {
+  async (crendentials , { getState }) => {
     try {
-      const { data } = await axios.get("api/v1/user", credentials);
+      const authToken = getState().user.authToken;
+      const headers = {
+        Authorization: `Bearer ${authToken}`,
+      };
+
+      const { data } = await axios.get("api/v1/user", { headers });
       return data;
     } catch (error) {
       return error.response;

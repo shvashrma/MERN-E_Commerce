@@ -6,15 +6,19 @@ const initialState = {
   error: null,
   status: "idle",
   sellerAccount: null,
+  sellerRegistered: false,
 };
 
 const registerSellerAccount = createAsyncThunk(
   "seller/registerSellerAccount",
-  async (credentials, headers) => {
+  async (credentials, { getState }) => {
     try {
-      const data = await axios.post("api/v1/seller/register", credentials, {
-        headers: headers,
-      }).then((response) => console.log(response));
+      const authToken = getState().user.authToken;
+      const headers = { Authorization: `Bearer ${authToken}` };
+      const { data } = await axios.post("api/v1/seller/register", credentials, {
+        headers,
+      });
+
       return data;
     } catch (error) {
       return error.response;
@@ -33,16 +37,17 @@ const sellerSlice = createSlice({
       })
       .addCase(registerSellerAccount.fulfilled, (state, action) => {
         (state.loading = false),
-          (state.sellerAccount = action),
+          (state.sellerAccount = action.payload),
           (state.status = "successfull"),
           (state.error = null),
-          console.log(action);
+          (state.sellerRegistered = true);
       })
       .addCase(registerSellerAccount.rejected, (state, action) => {
         (state.loading = false),
           (state.sellerAccount = null),
           (state.status = "failed"),
-          (state.error = action.error);
+          (state.error = action.error),
+          (state.sellerRegistered = false);
       });
   },
 });

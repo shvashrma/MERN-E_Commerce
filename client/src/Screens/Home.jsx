@@ -1,32 +1,8 @@
-import react, { useEffect } from "react";
+import react from "react";
 import { HiOutlineClock } from "react-icons/hi";
 import Product from "../Components/Product";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserDetails } from "../Redux/Slices/userSlice";
-// import BannerImg1 from "../../../Assets/Banners/Banner-1.webp";
-// import BannerImg2 from "../../../Assets/Banners/Banner-2.webp";
-// import BannerImg3 from "../../../Assets/Banners/Banner-3.webp";
-// import BannerImg4 from "../../../Assets/Banners/Banner-4.webp";
-// import Mainbanner1 from "../../../Assets/Banners/Main-1.jpg";
-// import Mainbanner2 from "../../../Assets/Banners/Main-2.jpg";
-// import Mainbanner3 from "../../../Assets/Banners/Main-3.jpg";
 
 export default function Home() {
-  const dispatch = useDispatch();
-  const authToken = useSelector((state) => state.user?.authToken);
-
-  const credentials = {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  };
-
-  useEffect(() => {
-    if (authToken) {
-      dispatch(getUserDetails(credentials));
-    }
-  }, [authToken]);
-
   return (
     <div className="flex flex-col items-center justify-center w-full">
       {/* Upper Division */}

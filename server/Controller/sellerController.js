@@ -19,15 +19,15 @@ const registerNewSeller = asyncHandler(async (req, res) => {
     await UserModel.findByIdAndUpdate(req.user, { sellerId: newSeller._id });
 
     if (newSeller) {
-      res
+      return res
         .status(200)
         .json(newSeller)
         .send("Successfully seller account created");
     } else {
-      res.status(403).send("Bad request!!!");
+      return res.status(403).send("Bad request!!!");
     }
   } catch (error) {
-    res.status(500).json({ errorMessage: "Internal server error" });
+    return res.status(500).json({ errorMessage: "Internal server error" });
   }
 });
 
@@ -36,12 +36,12 @@ const getSellerDetails = asyncHandler(async (req, res) => {
   try {
     const seller = await sellerModel.findById(sellerId).select("-userId");
     if (seller) {
-      res.status(200).json(seller);
+      return res.status(200).json(seller);
     } else {
-      res.status(404).send("Invalid seller Id");
+      return res.status(404).send("Invalid seller Id");
     }
   } catch (error) {
-    res.status(500).json({ errorMessage: "Internal server error" });
+    return res.status(500).json({ errorMessage: "Internal server error" });
   }
 });
 
