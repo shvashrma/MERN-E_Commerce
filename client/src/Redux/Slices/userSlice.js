@@ -27,7 +27,7 @@ const registerUser = createAsyncThunk(
       const { data } = await axios.post("api/v1/user/register", credentials);
       return data;
     } catch (error) {
-      return error.response.data;
+      return error.response;
     }
   }
 );
@@ -37,10 +37,9 @@ const getUserDetails = createAsyncThunk(
   async (credentials) => {
     try {
       const { data } = await axios.get("api/v1/user", credentials);
-      console.log(credentials)
       return data;
     } catch (error) {
-      return error.response.data;
+      return error.response;
     }
   }
 );
@@ -75,7 +74,7 @@ const userSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         (state.loading = false),
           (state.user = null),
-          (state.error = action.payload),
+          (state.error = action.error),
           (state.status = "failed");
       });
 
@@ -92,7 +91,7 @@ const userSlice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         (state.loading = false),
           (state.status = "failed"),
-          (state.error = action.payload);
+          (state.error = action.error);
       });
 
     builder
@@ -109,7 +108,7 @@ const userSlice = createSlice({
         (state.loading = false),
           (state.user = null),
           (state.status = "failed"),
-          (state.error = action.payload);
+          (state.error = action.error);
       });
   },
 });

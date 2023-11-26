@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { registerSellerAccount } from "../Redux/Slices/SellerAccount";
-
+import { useNavigate } from "react-router-dom";
 export default function SellerRegister() {
   const [categories, setcategories] = useState([]);
   const [organizaztionName, setorganizaztionName] = useState("");
@@ -10,6 +10,13 @@ export default function SellerRegister() {
   const [email, setemail] = useState("");
   const dispatch = useDispatch();
   const authToken = useSelector((state) => state.user?.authToken);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!authToken) {
+      navigate("/login");
+    }
+  }, [authToken]);
 
   const handleCategories = (e) => {
     const { value, checked } = e.target;
@@ -26,15 +33,19 @@ export default function SellerRegister() {
     ownerName,
     phoneNumber,
     email,
-    headers: {
-        Authorization: `Bearer ${authToken}`,
-    },
+  };
+
+  const headers = {
+    Authorization: `Bearer ${authToken}`,
   };
 
   const sellerRegisterFunctuon = () => {
-    dispatch(registerSellerAccount(credentials));
-
-    console.log(credentials)
+    dispatch(registerSellerAccount(credentials, headers));
+    setemail("");
+    setownerName("");
+    setorganizaztionName("");
+    setcategories([]);
+    setphoneNumber("");
   };
 
   return (
