@@ -21,7 +21,6 @@ export default function Login() {
       navigate("/");
     }
   });
-  
 
   const userLoginFunction = async () => {
     const credentials = {
@@ -31,18 +30,20 @@ export default function Login() {
 
     // dispatching login user action and setUsertoLocalstorage action after successfuly looged in
     dispatch(loginUser(credentials))
-      .then((response) =>
-        dispatch(setUsertoLocalstorage(response.payload.AuthToken))
-      )
+      .then((response) => {
+        if (response.payload.AuthToken) {
+          dispatch(setUsertoLocalstorage(response.payload.AuthToken));
+        }
+      })
       .catch((error) => console.log(error));
     setemail("");
     setpassword("");
-  };
 
-  // redirecting to home page if user successfully logged in
-  if (authToken) {
-    navigate("/");
-  }
+    // redirecting to home page if user successfully logged in
+    if (authToken) {
+      navigate("/");
+    }
+  };
 
   return (
     <>
