@@ -20,9 +20,11 @@ import SellerRegister from "./Screens/SellerRegister";
 import { getUserDetails } from "./Redux/Slices/userSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getSellerAccountDetails } from "./Redux/Slices/sellerSlice";
 
 function App() {
   const authToken = useSelector((state) => state.user?.authToken);
+  const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,6 +32,12 @@ function App() {
       dispatch(getUserDetails());
     }
   }, [authToken, dispatch]);
+
+  useEffect(() => {
+    if (user?.isSeller) {
+      dispatch(getSellerAccountDetails());
+    }
+  }, [dispatch, user?.isSeller]);
 
   return (
     <div className="w-full h-full items-center flex flex-col justify-center relative">
