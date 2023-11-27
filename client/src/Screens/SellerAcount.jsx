@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { HiOutlinePencil } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import NewProductUpload from "../Components/NewProductUpload";
 
 export default function SellerAcount() {
   const sellerAccount = useSelector((state) => state.seller?.sellerAccount);
+  const [isNewProductUploadingStart, setisNewProductUploadingStart] =
+    useState(false);
 
   return (
     <div className="w-full my-6 flex flex-col gap-8 min-h-[60vh] justify-center">
       <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl text-teal-700 font-bold">
+        <h1 className="text-2xl text-teal-900 font-bold">
           Manage your seller Account
         </h1>
         <p className="w-3/5 text-sm text-gray-500 font-semibold text-center">
@@ -130,16 +133,19 @@ export default function SellerAcount() {
       </div>
       <div className="flex flex-col items-center gap-4">
         <div className="text-teal-800 font-bold text-2xl ">Products</div>
-        <div className="border-2 border-teal-700 flex flex-col items-center justify-center w-full min-h-[20vh]">
-          <div
-            onClick={() =>
-              document.getElementById("uploadProductPicInput").click()
-            }
-            className="cursor-pointer text-gray-700 font-semibold text-sm"
-          >
-            Click here to upload new product
-          </div>
-          <input type="file" id="uploadProductPicInput" hidden />
+        <div className="border-2 border-teal-700 flex flex-col justify-center w-full min-h-[20vh]">
+          {isNewProductUploadingStart ? (
+            <NewProductUpload setisNewProductUploadingStart={setisNewProductUploadingStart} />
+          ) : (
+            <div className="flex flex-row items-center justify-center h-full">
+              <div
+                onClick={() => setisNewProductUploadingStart(true)}
+                className="cursor-pointer text-gray-700 font-semibold text-sm"
+              >
+                Click here to upload new product
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -5,11 +5,11 @@ import crypto from "crypto";
 import sharp from "sharp";
 
 const s3 = new S3Client({
-  region: process.env.AWS_BUCKET_REGION,
   credentials: {
     secretAccessKey: process.env.AWS_BUCKET_SECRET_ACCESSKEY,
     accessKeyId: process.env.AWS_BUCKET_ACCESSKEY,
-  }
+  },
+  region: process.env.AWS_BUCKET_REGION,
 });
 
 const randomImageName = async (bytes = 32) =>
@@ -20,9 +20,8 @@ const addingNewProduct = asyncHandler(async (req, res) => {
     req.body;
 
   try {
-    const productImageName = randomImageName();
-
-    const buffer = await sharp(req.file.buffer)
+    const productImageName = await randomImageName();
+    const buffer = await sharp(req.file?.buffer)
       .resize({ height: 1920, width: 1080, fit: "contain" })
       .toBuffer();
 
@@ -51,11 +50,10 @@ const addingNewProduct = asyncHandler(async (req, res) => {
       res.status(500).send("Internal Server Error");
     }
   } catch (error) {
-    res.status(500).json({ errorMessage: error });
+    console.log(error);
+    res.status(500).json({ errorMessage: error.message });
   }
 });
-
-
 
 const gettingAllProducts = asyncHandler(async (req, res) => {
   try {
