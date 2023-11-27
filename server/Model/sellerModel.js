@@ -32,6 +32,9 @@ const sellerModel = mongoose.Schema(
       required: true,
       default: 0,
     },
+    totalOrders: {
+      type: [],
+    },
   },
   { timestamps: true }
 );

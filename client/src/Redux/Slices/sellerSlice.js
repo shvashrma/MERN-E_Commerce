@@ -36,7 +36,9 @@ const getSellerAccountDetails = createAsyncThunk(
         Authorization: `Bearer ${authToken}`,
       };
 
-      const { data } = await axios.get(`api/v1/seller/${sellerId}`, { headers });
+      const { data } = await axios.get(`api/v1/seller/${sellerId}`, {
+        headers,
+      });
       return data;
     } catch (error) {
       return error.response;

@@ -12,6 +12,7 @@ export default function SellerRegister() {
   const dispatch = useDispatch();
   const authToken = useSelector((state) => state.user?.authToken);
   const navigate = useNavigate();
+  
   const sellerAccount = useSelector((state) => state.seller?.sellerAccount);
   const loading = useSelector((state) => state.seller?.loading);
 
