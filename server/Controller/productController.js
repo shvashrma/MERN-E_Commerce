@@ -4,20 +4,20 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import crypto from "crypto";
 import sharp from "sharp";
 
-const s3 = new S3Client({
-  credentials: {
-    secretAccessKey: process.env.AWS_BUCKET_SECRET_ACCESSKEY,
-    accessKeyId: process.env.AWS_BUCKET_ACCESSKEY,
-  },
-  region: process.env.AWS_BUCKET_REGION,
-});
-
 const randomImageName = async (bytes = 32) =>
   await crypto.randomBytes(bytes).toString("hex");
 
 const addingNewProduct = asyncHandler(async (req, res) => {
   const { productName, description, price, category, ratings, Quantity } =
     req.body;
+
+  const s3 = new S3Client({
+    credentials: {
+      secretAccessKey: process.env.AWS_BUCKET_SECRET_ACCESSKEY,
+      accessKeyId: process.env.AWS_BUCKET_ACCESSKEY,
+    },
+    region: process.env.AWS_BUCKET_REGION,
+  });
 
   try {
     const productImageName = await randomImageName();
@@ -31,10 +31,11 @@ const addingNewProduct = asyncHandler(async (req, res) => {
       Body: buffer,
       ContentType: req.file.mimetype,
     });
+
     s3.send(command);
 
     const newProduct = await productModel.create({
-      sellerID: req.user,
+      sellerID: req.user._id,
       productImage: productImageName,
       productName,
       description,
@@ -45,13 +46,16 @@ const addingNewProduct = asyncHandler(async (req, res) => {
     });
 
     if (newProduct) {
-      res.status(200).send("Successfully Product Created").json(newProduct);
+      console.log(newProduct);
+      return res
+        .status(200)
+        .send("Successfully Product Created")
+        .json(newProduct);
     } else {
-      res.status(500).send("Internal Server Error");
+      return res.status(500).send("Internal Server Error");
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ errorMessage: error.message });
+    return res.status(500).json(error);
   }
 });
 
