@@ -31,6 +31,12 @@ export default function NewProductUpload({ setisNewProductUploadingStart }) {
     formData.append("category", categories);
 
     dispatch(uploadNewProduct(formData));
+    setcategories("");
+    setproductName("");
+    setprice("");
+    setdescription("");
+    setquantity(null);
+    setproductImage(null);
   };
 
   return (
