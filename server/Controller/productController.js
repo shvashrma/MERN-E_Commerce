@@ -1,6 +1,7 @@
 import productModel from "../Model/productModel.js";
 import asyncHandler from "express-async-handler";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import sellerModel from "../Model/sellerModel.js";
 import crypto from "crypto";
 import sharp from "sharp";
 
@@ -46,15 +47,16 @@ const addingNewProduct = asyncHandler(async (req, res) => {
     });
 
     if (newProduct) {
-      console.log(newProduct);
-      return res
-        .status(200)
-        .send("Successfully Product Created")
-        .json(newProduct);
+      await sellerModel.updateOne(
+        { userId: req.user._id },
+        { $push: { products: newProduct._id } }
+      );
+      return res.status(200).json(newProduct);
     } else {
       return res.status(500).send("Internal Server Error");
     }
   } catch (error) {
+    console.log(error);
     return res.status(500).json(error);
   }
 });

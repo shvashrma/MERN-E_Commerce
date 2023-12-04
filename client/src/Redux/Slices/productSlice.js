@@ -17,12 +17,11 @@ const uploadNewProduct = createAsyncThunk(
       const headers = {
         Authorization: `Bearer ${authToken}`,
       };
-      console.log(formData);
-      const { data } = axios
-        .post("api/v1/product/new", formData, {
+      const { data } = await axios.post("api/v1/product/new", formData, {
           headers,
           "Content-Type": "multipart/form-data",
         })
+        console.log(data)
       return data;
     } catch (error) {
       return error;
