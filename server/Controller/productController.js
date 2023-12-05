@@ -98,11 +98,18 @@ const gettingAllProducts = asyncHandler(async (req, res) => {
 
 const getProduct = asyncHandler(async (req, res) => {
   const { productId } = req.params;
-
   try {
     const product = await productModel.findById(productId);
 
     if (product) {
+      const getObjectParams = {
+        Bucket: bucketName,
+        Key: product.productImage,
+      };
+      const command = new GetObjectCommand(getObjectParams);
+      const url = await getSignedUrl(s3, command);
+      product.productImageUrl = url;
+
       res.status(200).json(product);
     } else {
       res.status(404).send("Product Not Found");
