@@ -21,6 +21,8 @@ import { getUserDetails } from "./Redux/Slices/userSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSellerAccountDetails } from "./Redux/Slices/sellerSlice";
+import Wishlist from "./Screens/Wishlist";
+import Account from "./Screens/Account";
 
 function App() {
   const authToken = useSelector((state) => state.user?.authToken);
@@ -59,6 +61,8 @@ function App() {
           <Route path="/billing" element={<Billing />} />
           <Route path="/seller/:sellerId" element={<SellerAcount />} />
           <Route path="/seller/register" element={<SellerRegister />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/wishlist" element={<Wishlist />} />
         </Routes>
         <Footer />
       </div>

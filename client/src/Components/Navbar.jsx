@@ -22,14 +22,14 @@ export default function Navbar() {
       {/* Upper navbar  */}
       <div className="flex flex-row justify-between items-center my-2">
         {/* Logo  */}
-        <div>
+        <Link to={'/'}>
           <h3 className="text-xl font-bold text-teal-700 font-sans cursor-pointer">
             Blip
             <span className="text-black">
               Kart<span className="text-teal-700">.</span>
             </span>
           </h3>
-        </div>
+        </Link>
 
         {/* Location  */}
         <div className="flex flex-row">
@@ -72,18 +72,18 @@ export default function Navbar() {
           </div>
 
           {/* Wishlist  */}
-          <div className="cursor-pointer border-r-2 px-2 border-l-2">
+          <Link to={'/wishlist'} className="cursor-pointer border-r-2 px-2 border-l-2">
             <HiOutlineHeart size={"20px"} color="gray" />
-          </div>
+          </Link>
 
           {/* Cart  */}
-          <div className="cursor-pointer border-r-2 pr-2">
+          <Link to={'/cart'} className="cursor-pointer border-r-2 pr-2">
             <HiOutlineShoppingCart size={"20px"} color="gray" />
-          </div>
+          </Link>
 
           {/* User Account  */}
           {loggedInUser ? (
-            <div className="flex flex-row items-center space-x-1 cursor-pointer">
+            <Link to={'/account'} className="flex flex-row items-center space-x-1 cursor-pointer">
               <HiOutlineUser size={"16px"} />
               <div className="flex flex-col -space-y-1">
                 <p className="text-[8px] text-gray-700 font-semibold">Hello</p>
@@ -91,7 +91,7 @@ export default function Navbar() {
                   {loggedInUser.userName}
                 </h2>
               </div>
-            </div>
+            </Link>
           ) : (
             <Link
               className="flex flex-row items-center space-x-1 cursor-pointer"

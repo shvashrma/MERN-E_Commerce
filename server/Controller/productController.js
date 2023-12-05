@@ -1,24 +1,36 @@
 import productModel from "../Model/productModel.js";
 import asyncHandler from "express-async-handler";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  PutObjectCommand,
+  S3Client,
+  GetObjectCommand,
+} from "@aws-sdk/client-s3";
 import sellerModel from "../Model/sellerModel.js";
 import crypto from "crypto";
 import sharp from "sharp";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import dotenv from "dotenv";
 
 const randomImageName = async (bytes = 32) =>
   await crypto.randomBytes(bytes).toString("hex");
 
+dotenv.config();
+const bucketName = process.env.AWS_BUCKET_NAME;
+const secretAccessKey = process.env.AWS_BUCKET_SECRET_ACCESSKEY;
+const accessKeyId = process.env.AWS_BUCKET_ACCESSKEY;
+const region = process.env.AWS_BUCKET_REGION;
+
+const s3 = new S3Client({
+  credentials: {
+    secretAccessKey: secretAccessKey,
+    accessKeyId: accessKeyId,
+  },
+  region: region,
+});
+
 const addingNewProduct = asyncHandler(async (req, res) => {
   const { productName, description, price, category, ratings, Quantity } =
     req.body;
-
-  const s3 = new S3Client({
-    credentials: {
-      secretAccessKey: process.env.AWS_BUCKET_SECRET_ACCESSKEY,
-      accessKeyId: process.env.AWS_BUCKET_ACCESSKEY,
-    },
-    region: process.env.AWS_BUCKET_REGION,
-  });
 
   try {
     const productImageName = await randomImageName();
@@ -27,12 +39,11 @@ const addingNewProduct = asyncHandler(async (req, res) => {
       .toBuffer();
 
     const command = new PutObjectCommand({
-      Bucket: process.env.AWS_BUCKET_NAME,
+      Bucket: bucketName,
       Key: productImageName,
       Body: buffer,
       ContentType: req.file.mimetype,
     });
-
     s3.send(command);
 
     const newProduct = await productModel.create({
@@ -66,12 +77,22 @@ const gettingAllProducts = asyncHandler(async (req, res) => {
     const Products = await productModel.find();
 
     if (Products) {
+      for (const Product of Products) {
+        const getObjectParams = {
+          Bucket: bucketName,
+          Key: Product.productImage,
+        };
+        const command = new GetObjectCommand(getObjectParams);
+        const url = await getSignedUrl(s3, command);
+        Product.productImageUrl = url;
+      }
       res.status(200).json(Products);
     } else {
       res.status(500).send("Products Not Found");
     }
   } catch (error) {
-    res.status(500).json({ errorMessage: error });
+    console.log(error);
+    res.status(500).json({ errorMessage: error.message });
   }
 });
 
