@@ -46,6 +46,14 @@ const addingNewProduct = asyncHandler(async (req, res) => {
     });
     s3.send(command);
 
+    const getObjectParams = {
+      Bucket: bucketName,
+      Key: productImageName,
+    };
+
+    const GetCommand = new GetObjectCommand(getObjectParams);
+    const url = await getSignedUrl(s3, GetCommand);
+
     const newProduct = await productModel.create({
       sellerID: req.user._id,
       productImage: productImageName,
@@ -55,6 +63,7 @@ const addingNewProduct = asyncHandler(async (req, res) => {
       category,
       ratings,
       Quantity,
+      productImageUrl: url,
     });
 
     if (newProduct) {
@@ -77,15 +86,6 @@ const gettingAllProducts = asyncHandler(async (req, res) => {
     const Products = await productModel.find();
 
     if (Products) {
-      for (const Product of Products) {
-        const getObjectParams = {
-          Bucket: bucketName,
-          Key: Product.productImage,
-        };
-        const command = new GetObjectCommand(getObjectParams);
-        const url = await getSignedUrl(s3, command);
-        Product.productImageUrl = url;
-      }
       res.status(200).json(Products);
     } else {
       res.status(500).send("Products Not Found");
@@ -102,14 +102,6 @@ const getProduct = asyncHandler(async (req, res) => {
     const product = await productModel.findById(productId);
 
     if (product) {
-      const getObjectParams = {
-        Bucket: bucketName,
-        Key: product.productImage,
-      };
-      const command = new GetObjectCommand(getObjectParams);
-      const url = await getSignedUrl(s3, command);
-      product.productImageUrl = url;
-
       res.status(200).json(product);
     } else {
       res.status(404).send("Product Not Found");
