@@ -28,8 +28,8 @@ const userModel = mongoose.Schema(
     sellerId: {
       type: String,
     },
-    wishlistItems: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-    cartItems: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    wishlistItems: [String],
+    cartItems: [String],
   },
   { timestamps: true }
 );

@@ -26,11 +26,18 @@ const addtocartFunction = asyncHandler(async (req, res) => {
 
 const getCartItemsFunction = asyncHandler(async (req, res) => {
   try {
-    const user = await userModel.findById(req.user._id).populate('cartItems');
+    const user = await userModel.findById(req.user._id);
     if (user) {
       const cartItems = user.cartItems;
-      console.log(cartItems);
-      return res.status(200).json(cartItems);
+      const cartProducts = [];
+
+      for(const items of cartItems){
+        const cartId = await cartModel.findById(items);
+        const products = await productModel.findById(cartId?.productId);
+        cartProducts.push(products);
+      }
+      
+      return res.status(200).json(cartProducts);
     } else {
       return res.status(500).send("Internal server error");
     }
