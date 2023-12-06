@@ -7,6 +7,8 @@ import mongoose from "mongoose";
 import userRoutes from "./Routes/userRoutes.js";
 import productRoutes from "./Routes/productRoutes.js";
 import sellerRoutes from "./Routes/sellerRoutes.js";
+import cartRoutes from "./Routes/cartRoutes.js";
+import wishlistRoutes from "./Routes/wishlistRoutes.js";
 
 const app = express();
 
@@ -42,3 +44,5 @@ db.on("open", () => {
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", sellerRoutes);
+app.use("/api/v1", cartRoutes);
+app.use("api/v1", wishlistRoutes);
